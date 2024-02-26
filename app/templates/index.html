@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Evaluacion</title>
+</head>
+
+<body>
+    <h1>Unidad bd</h1>
+    <button type="button" class="btn btn-primary" onclick="openUsuarios()">Usuarios</button>
+    <button type="button" class="btn btn-primary" onclick="openPrivilegios();">Privilegios</button>
+    <button type="button" class="btn btn-primary" onclick="openTablas();">Tablas</button>
+    <button type="button" class="btn btn-primary" onclick="openProductos();">Productos</button>
+
+    <div class="container" style=" max-height: 800px; margin-top: 40px;">
+        <div class="row">
+            <div class="col-md-4 border border-1">
+                <form method="POST" action="/asinar_privilegios">
+                    <h3>Asignar privilegios</h3>
+                    <label for="">Usuario</label>
+                    <select class="form-select" aria-label="Default select example" name="usuario">
+                        <option selected>Seleciona el usuario</option>
+                        {% for usuario in data['usuarios'] %}
+                            <option value="{{usuario[0]}}">{{usuario[1]}}</option>        
+                        {% endfor %}
+                    </select>
+                    <label for="">Privilegio</label>
+                    <select class="form-select" aria-label="Default select example" name="privilegio">
+                        <option selected>Selecciona el privilegio</option>
+                        {% for privilegio in data['privilegios'] %}
+                            <option value="{{privilegio[0]}}">{{privilegio[1]}}</option>        
+                        {% endfor %}
+                    </select>
+                    <label for="">Tabla</label>
+                    <select class="form-select" aria-label="Default select example" name="tabla">
+                        {% for tabla in data['tablas'] %}
+                            <option value="{{tabla[0]}}">{{tabla[1]}}</option>        
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary">Consultar</button>
+                </form>
+            </div>
+
+            <div class="col-md-4 border border-1">
+                <form method="POST" action="/consultasComandos">
+                    <h3>Consultas</h3>
+                    <label for="">Usuario</label>
+                    <select class="form-select" aria-label="Default select example" name="usuario">
+                        <option selected>Seleciona el usuario</option>
+                        {% for usuario in data['usuarios'] %}
+                            <option value="{{usuario[0]}}">{{usuario[1]}}</option>        
+                        {% endfor %}
+                    </select>
+                    <div class="mb-3">
+                        <label for="campo1" class="form-label">Password</label>
+                        <input type="text" class="form-control" name="password" id="campo1">
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="query"></textarea>
+                        <label for="floatingTextarea">Query</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px; margin-bottom:20px;">Consultar</button>
+                </form>
+                
+            </div>
+
+            <div class="col-md-4 border border-1">
+                <div class="form-floating">
+                    <h3>Resultado</h3>
+                    {% if data['v'] == 'F' %}
+                        <p></p>
+                    {% else %}
+                        <p>{{data}}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openUsuarios() {
+            window.open("/usuarios", "_blank");
+        }
+        function openPrivilegios() {
+            window.open("/privilegios", "_blank");
+        }
+        function openTablas() {
+            window.open("/tablas", "_blank");
+        }
+        function openProductos() {
+            window.open("/productos", "_blank");
+        }
+    </script>
+</body>
+
+</html>
